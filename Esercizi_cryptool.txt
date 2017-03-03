@@ -1,0 +1,2 @@
+Es.1 - Scrivere un applicazione costituita da due blocchi playfair uno per cifrare e uno per decifrare che prende un file di testo in input e produce un file di testo cifrato in output
+Es.2 - Scrivere un programma con cryptool per cifrare e decifrare un file di testo usando il blocco di vername e utilizzando come alfabeto, le lettere maiuscole e minuscole, i numeri e i caratteri speciali

@@ -1,0 +1,92 @@
++--Parole Parole Parole--------------------------------------------------------------------+ 
++  - Steganografia: occultamento del messaggio                                             +
++  - Crittografia: occultamento del sisgnificato del messaggio                             + 
++  - Messaggio in chiaro: testo da criptare                                                +
++  - Chiave: Informazione usata come parametro in un algoritmo crittografico               + 
++  - Ctrittoanalisi: scienza dell'interpretazione del messaggio di cui si ignora la chiave +
++------------------------------------------------------------------------------------------+
+
+Steganografia:
+	- LSB (Less Significanti Bit): levo qualche pixel (anche centinaia) in un immagine li modifico
+								   e li metto assieme a formare il testo nascosto;
+Crittografia:
+	- Rendo il messaggio incomprensibile al meno che non abbia la chiave
+	- Il messaggio cifrato comunicanto si chiama crittogramma
+	- L'insieme di crittoanaliasi e crittografia si chiama crittologia
+
+Chiave: 
+	- Parametro in un algoritmo crittografico per cifrae e decifrare un messaggio, ed è
+	  questa che va tenuta nascosta
+	- La chiave si definisce in bit
+	- La dimensione della chiave dipende dal tipo di algoritmo utilizzato
+	- Più la chiave è grande più il messaggio è sicuro (oggi come oggi si usano chiavi minimo da 128bit)
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Crittografia classica (dai tempi di Giulio Cesare fino al 1975):
+	- Per transposizione (anagramma): Spostamento dei caratteri nella frase
+			- Per esempio posso prendere una frase e scrivo alternativamente i caratteri su due o più righe
+			  e poi mettere le frasi ottenute una dietro l'altra(transposizione a inferriata)
+	- Per sostituzione:
+			- Cifratura: vengono sostituite le singole lettere
+			- Codifica: vengono sostituite le parole
+			
+Cifrario di Cesare(150 a.c.):
+	- Algoritmo con sostituzione mono alfabetica
+	- Consiste nello spostamento della lettera di n 
+	- Vulnerabile all'analisi di frequenza
+	
+Scrivere un programma in java per effettuare l'analisi di frequenza(quante volte compare il carattere che compare in una determinata frase)
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Cifrario di Vernam (1926)
+	- Deriva da Vigenere, ma qui la chiave è lunga quanto tutto il testo e tutto casuale e la si cambia ogni volta
+	- Si rappresenta il testo in ASCII e si fa uno XOR bit a bit con la chiave
+	- Essendo la chiave lunga quanto il testo e generata rando e usata una volta sola, questo viene chiamato "cifrario perfetto"
+	  proprio perchè si è praticamente immunni alla crittoanalisi
+	- Un contro è la casualità della chiave, e il dispendio computazionale per via della sua lunghezza(la chiave è lunga quanto il testo)
+	
+	- Come funziona:
+		- Si numera tutto l'alfabeto
+		- Prendo una parola e do i corrispettvi numeri
+		- Prendo la chiave generata casualmente e assegno i numeri anche alla chiave
+		- Sommo i numeri del plaintext e della chiave
+		- Successivamente si fa uno XOR escusivo Testo ^ Chiave per cifrare, Chiave ^ Testo per decifrare
+		
+---------------------------------------------------------------------------------------------------------------------------------------------
+AES - Advanced Encryption Standard
+
+	- è un algo molto importante, adottatto nel 2001 ed è usato ancora oggi ed è usato ancora oggi
+	- Viene anche chiamato Algoritmo Rijndael
+	- è capace di resistere ad ogni tipo di attacco
+	- Velocità e compattezza del codice
+	- Semplicità progettuale (quindi di facile implementazione)
+	- La chiave minima è da 126 la massima 256
+	- è un cifrario a blocchi, divide in 100 blocchi da 128 bit (è possibile usare anche blocchi da 192 o 256)
+	- Esegue sia sostituzione che permutazione
+	- Usa matrici states [4][4]
+	- A partire da un singolo blocco da 128 bit vengono effettuate 10 fasi chiamate rounds
+	- Ogni round effettua 4 trasformazioni che sono le seguenti:
+		1) SubBytes (Sostituzione di bytes) Sostituzione non lineare di tutti i bytes secondo una specifica tabella
+		2) ShiftRows (Permutazione) I byte vengono spostate di un numero di posizioni che dipendono dalla riga		
+		3) MixColumns (Permutazione) Si prende una colonna per volta e si fanno delle combinazioni lineari, colonna per colonna
+		4) AddRoundKey (Sostituzione) Ogni byte della tabella viene combinato con la chiave di sessione che viene calcolata dal gestore delle chiavi
+		
+	---I 4 PASSAGGI---------------------------------------------------------------------------------------------------------------------------------------------
+	
+	- SubBytes)
+		- Viene usata una particolare tabella chiamata S-BOX viene usata in una maniera fissa e viene usata per le sue caratteristiche di non linearità
+		- Vado a prendere riga e colonna del mio byte nella mia tabella e lo sostituisco con il corrispondente nell'S-BOX
+		- è studiata per evitare dei possibili attacchi di tipo algebrico
+	- ShiftRows)
+		- In questo passo le righe vengono spostate (verso sinistra) a seconda della riga:
+			- La riga 0 si sposta di 0 posizioni
+			- La riga 1 si sposta di 1 posizione
+			- La riga 2 si sposta di 2 posizioni
+			- La riga 3 si sposta di 3 posizioni
+	- MixColumns)
+		- Ogni colonna viene moltiplicata per colonna con un altra matrice quindi si applica un polinomio (C(x)) e si crea la nuova colonna
+		- C(x) è un polinomio fisso
+	- AddRoundKey)
+		- Prendo il blocco della batrice e il blocco della chiave applico uno XOR esclusivo e si ottiene una nuova matrice
